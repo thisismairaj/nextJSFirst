@@ -6,8 +6,20 @@ import { useRouter } from "next/navigation"
 import Profile from "@components/profile"
 
 const MyProfile = () => {
-  const handleEdit = (id, data) => {}
-  const handleDelete = async (id) => {}
+  const { data: session } = useSession()
+  const [posts, setPosts] = useState([])
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const response = await fetch(`/api/users/${session?.user.id}/posts`)
+      const data = await response.json()
+
+      setPosts(data)
+    }
+    if (session?.user.id) fetchPosts()
+  }, [])
+  const handleEdit = (post) => {}
+  const handleDelete = async (post) => {}
   return (
     <Profile
       name="My profile"
